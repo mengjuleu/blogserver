@@ -25,16 +25,22 @@ func main() {
 
 	logger.Info("Blog Service Started")
 
-	client, err := configureMongoClient()
-	if err != nil {
-		logger.WithError(err).Fatal("Failed to configure Mongo Client")
+	client, cerr := configureMongoClient()
+	if cerr != nil {
+		logger.WithError(cerr).Fatal("Failed to configure Mongo Client")
 	}
 
-	err = client.Connect(context.TODO())
-	if err != nil {
-		logger.WithError(err).Fatal("Failed to connect to MongoDB")
+	connerr := client.Connect(context.TODO())
+	if connerr != nil {
+		logger.WithError(connerr).Fatal("Failed to connect to MongoDB")
 	}
-	defer client.Disconnect(context.TODO())
+	defer func() {
+		logger.Info("Disconnecting from MongoDB")
+		err := client.Disconnect(context.TODO())
+		if err != nil {
+			logger.WithError(err).Fatal("Failed to disconnect to MongoDB")
+		}
+	}()
 
 	collection := client.Database("blog").Collection("blog")
 

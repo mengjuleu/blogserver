@@ -14,8 +14,6 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-const version = "1.0"
-
 // Server is blog server
 type Server struct {
 	collection *mongo.Collection
@@ -218,7 +216,12 @@ func (s *Server) ListBlog(req *blogpb.ListBlogRequest, stream blogpb.BlogService
 				fmt.Sprintf("Error while decoding data from MongoDB: %v", err),
 			)
 		}
-		stream.Send(&blogpb.ListBlogResponse{Blog: dataToBlogPb(data)})
+		if serr := stream.Send(&blogpb.ListBlogResponse{Blog: dataToBlogPb(data)}); serr != nil {
+			return status.Errorf(
+				codes.Internal,
+				fmt.Sprintf("Error while sending data to client: %v", serr),
+			)
+		}
 	}
 
 	if err := cursor.Err(); err != nil {

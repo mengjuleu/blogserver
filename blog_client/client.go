@@ -27,7 +27,6 @@ func main() {
 	c := blogpb.NewBlogServiceClient(cc)
 
 	listBlog(c)
-
 }
 
 func createBlog(c blogpb.BlogServiceClient) {
