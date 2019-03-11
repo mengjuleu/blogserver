@@ -1,3 +1,5 @@
 vendor/
+data/
 .gotdeps
 .gotglide
+.gotlint

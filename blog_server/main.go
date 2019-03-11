@@ -16,7 +16,7 @@ import (
 )
 
 const (
-	mongoURI       = "mongodb://mleu:password123@ds113765.mlab.com:13765/blog"
+	mongoURI       = "mongodb://db:27017"
 	defaultRPCPort = "50051"
 )
 

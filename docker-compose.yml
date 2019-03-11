@@ -1,0 +1,13 @@
+version: '2.0'
+services:
+  blog-grpc-server:
+    image: mleu/blog-grpc:latest
+    ports:
+      - '50051:50051'
+
+  db:
+    image: mongo
+    ports:
+      - '27017:27017'
+    volumes:
+      - './data/db:/data/db'
