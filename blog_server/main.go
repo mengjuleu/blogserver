@@ -9,10 +9,12 @@ import (
 
 	"github.com/blog/blog_server/server"
 	"github.com/blog/blogpb"
+	"github.com/blog/healthpb"
 	"github.com/sirupsen/logrus"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/reflection"
 )
 
 const (
@@ -61,6 +63,9 @@ func main() {
 
 	s := configureGrpcServer(blogServer)
 
+	// reflection
+	reflection.Register(s)
+
 	go func() {
 		logger.Info("Sarting GRPC server")
 		if err := s.Serve(lis); err != nil {
@@ -84,6 +89,7 @@ func configureMongoClient() (*mongo.Client, error) {
 func configureGrpcServer(blogServer *server.Server) *grpc.Server {
 	opts := []grpc.ServerOption{}
 	s := grpc.NewServer(opts...)
+	healthpb.RegisterHealthServer(s, blogServer)
 	blogpb.RegisterBlogServiceServer(s, blogServer)
 	return s
 }

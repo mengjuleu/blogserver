@@ -7,6 +7,7 @@ import (
 	"google.golang.org/grpc/codes"
 
 	"github.com/blog/blogpb"
+	"github.com/blog/healthpb"
 	"github.com/globalsign/mgo/bson"
 	"github.com/sirupsen/logrus"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -231,6 +232,13 @@ func (s *Server) ListBlog(req *blogpb.ListBlogRequest, stream blogpb.BlogService
 		)
 	}
 	return nil
+}
+
+// Check handles health request
+func (s *Server) Check(ctx context.Context, req *healthpb.HealthCheckRequest) (*healthpb.HealthCheckResponse, error) {
+	return &healthpb.HealthCheckResponse{
+		Status: healthpb.HealthCheckResponse_SERVING,
+	}, nil
 }
 
 func dataToBlogPb(data *blogItem) *blogpb.Blog {
