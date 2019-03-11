@@ -2,6 +2,8 @@ FROM golang:1.11.5
 
 RUN go version
 
+RUN curl https://glide.sh/get | sh
+
 ADD . /go/src/github.com/blog
 
 WORKDIR /go/src/github.com/blog
