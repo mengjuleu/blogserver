@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blog-grpc-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: blog
+  template:
+    metadata:
+      labels:
+        component: blog
+    spec:
+      containers:
+        - name: blog-grpc
+          image: mleu/blog-grpc
+          resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+          ports:
+            - containerPort: 50051
+

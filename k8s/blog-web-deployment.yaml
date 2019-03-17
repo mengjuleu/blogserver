@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blog-web-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: blog
+  template:
+    metadata:
+      labels:
+        component: blog
+    spec:
+      containers:
+        - name: blog-web
+          image: mleu/blog-web
+          resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+          ports:
+            - containerPort: 5000
