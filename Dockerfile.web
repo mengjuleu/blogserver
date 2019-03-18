@@ -1,6 +1,7 @@
 FROM golang:1.11.5-alpine
 
 RUN apk add --no-cache git make curl
+
 RUN go version
 
 RUN curl https://glide.sh/get | sh
@@ -8,8 +9,8 @@ RUN curl https://glide.sh/get | sh
 ADD . /go/src/github.com/blog
 
 WORKDIR /go/src/github.com/blog
-RUN make install-grpc-server
+RUN make install-web-server
 
-EXPOSE 50051
+EXPOSE 5000
 
-ENTRYPOINT ["/go/bin/blog_server"]
+ENTRYPOINT ["/go/bin/blogweb"]
