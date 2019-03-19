@@ -6,19 +6,19 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      component: blog
+      component: bloggrpc
   template:
     metadata:
       labels:
-        component: blog
+        component: bloggrpc
     spec:
       containers:
         - name: blog-grpc
           image: mleu/blog-grpc
           resources:
-          limits:
-            memory: "128Mi"
-            cpu: "500m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
           ports:
             - containerPort: 50051
 
